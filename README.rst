@@ -18,8 +18,7 @@ instructions.
 2. Set the environment variables::
 
     export GOPATH=~/gows
-    export GOBIN=~/gows/bin
-    export PATH="$PATH:$GOBIN"
+    export PATH="$PATH:$GOPATH/bin"
 
 3. Install the script you want, e.g. for reverseslice::
 
@@ -27,4 +26,4 @@ instructions.
 
 4. Now you can run it::
 
-    reverselist
+    reverseslice
