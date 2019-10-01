@@ -20,9 +20,9 @@ public class LongestNonrepeatingSubstring {
       }
 
 
-      longestSoFar = Math.max(e - s, longestSoFar);
       seen.remove(c);
       s++;
+      longestSoFar = Math.max(e - s + 1, longestSoFar);
     }
     longestSoFar = Math.max(e - s, longestSoFar);
 
@@ -31,6 +31,8 @@ public class LongestNonrepeatingSubstring {
 
   public static void main(String args[]) {
     runSample("abcabcdd");
+    runSample("abcabca");
+    runSample("aaa");
     runSample("aaa");
     runSample("abc");
     runSample("dabab");
