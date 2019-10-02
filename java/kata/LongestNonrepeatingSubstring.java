@@ -3,6 +3,9 @@ package kata;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ * https://leetcode.com/problems/longest-substring-without-repeating-characters
+ */
 public class LongestNonrepeatingSubstring {
   static int longestNonrepeatingSubstring(String str) {
     int s = 0;
