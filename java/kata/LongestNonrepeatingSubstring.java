@@ -15,19 +15,19 @@ public class LongestNonrepeatingSubstring {
     int longestSoFar = 0;
     Set<Character> seen = new HashSet<>();
     while (s < n && e < n) {
+      // str[s]...str[e -1] are non-repeating. Check str[e].
       char c = str.charAt(e);
       if (!seen.contains(c)) {
         e++;
         seen.add(c);
+        longestSoFar = Math.max(e - s, longestSoFar);
         continue;
       }
 
 
       seen.remove(c);
       s++;
-      longestSoFar = Math.max(e - s + 1, longestSoFar);
     }
-    longestSoFar = Math.max(e - s, longestSoFar);
 
     return longestSoFar;
   }
@@ -35,7 +35,6 @@ public class LongestNonrepeatingSubstring {
   public static void main(String args[]) {
     runSample("abcabcdd");
     runSample("abcabca");
-    runSample("aaa");
     runSample("aaa");
     runSample("abc");
     runSample("dabab");
