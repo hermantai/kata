@@ -3,7 +3,7 @@ package kata;
 import java.util.*;
 
 /**
- * Cracking the coding interview 6th ed. p.81
+ * Cracking the coding interview 6th ed. p.67
  * Find all pairs of integers summed to k.
  */
 public class SumToK {
