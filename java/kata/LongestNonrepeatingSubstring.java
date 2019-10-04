@@ -24,7 +24,6 @@ public class LongestNonrepeatingSubstring {
         continue;
       }
 
-
       seen.remove(c);
       s++;
     }
