@@ -14,7 +14,7 @@ public class LongestNonrepeatingSubstring {
 
     int longestSoFar = 0;
     Set<Character> seen = new HashSet<>();
-    while (s < n && e < n) {
+    while (e < n) {
       // str[s]...str[e -1] are non-repeating. Check str[e].
       char c = str.charAt(e);
       if (!seen.contains(c)) {
