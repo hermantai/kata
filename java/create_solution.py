@@ -17,7 +17,7 @@ public class %(classname)s {
     runSample("abcabcdd");
   }
 
-  public static void runSample(String s) {
+  static void runSample(String s) {
     System.out.printf("%%s = %%s\\n", s, %(methodname)s(s));
   }
 }
