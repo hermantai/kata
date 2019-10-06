@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 /**
  * https://leetcode.com/problems/longest-substring-without-repeating-characters
+ * <p>Sliding window
  */
 public class LongestNonrepeatingSubstring {
   static int longestNonrepeatingSubstring(String str) {
