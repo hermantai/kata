@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class %(classname)s {
   static int %(methodname)s(String str) {
-    return 0
+    return 0;
   }
 
   public static void main(String args[]) {
