@@ -42,6 +42,44 @@ public class BSTImpl {
     return true;
   }
 
+  static Node remove(Node node, int data) {
+    if (node == null) {
+      return null;
+    }
+    if (data < node.data) {
+      node.left = remove(node.left, data);
+    } else if (data > node.data) {
+      node.right = remove(node.right, data);
+
+    } else {
+      // we found the value in this node, so remove this node
+      if (node.left == null && node.right == null) {
+        return null;
+      }
+      if (node.left == null) {
+        return node.right;
+      }
+      if (node.right == null) {
+        return node.left;
+      }
+
+      // replace this node's value with the smallest of the right, remove
+      // that node, then return the current node
+      node.right = replaceSmallestAndRemove(node.right, node);
+    }
+    return node;
+  }
+
+  static Node replaceSmallestAndRemove(Node node, Node originalNode) {
+    if (node.left != null) {
+      node.left = replaceSmallestAndRemove(node.left, originalNode);
+      return node;
+    } else {
+      originalNode.data = node.data;
+      return node.right;
+    }
+  }
+
   static int bSTImpl(String str) {
     return 0;
   }
@@ -58,6 +96,9 @@ public class BSTImpl {
     runSearch(tree, 2);
     runSearch(tree, 19);
     runSearch(tree, 14);
+
+    tree = runRemove(tree, 15);
+    tree = runRemove(tree, 6);
   }
 
   static Node runSample(int[] nums) {
@@ -72,6 +113,14 @@ public class BSTImpl {
 
   static void runSearch(Node tree, int data) {
     System.out.printf("%s? %s\n", data, search(tree, data));
+  }
+
+  static Node runRemove(Node tree, int data) {
+    tree = remove(tree, data);
+    System.out.println("remove " + data);
+    printTree(tree);
+    printTreeInOrder(tree);
+    return tree;
   }
 
   static void printTree(Node head) {
