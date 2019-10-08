@@ -7,21 +7,38 @@ import java.util.*;
  */
 public class LetterCombinationsOfPhoneNumber {
 
-  static Map<String, String> phone = new HashMap<String, String>() {{
-    put("2", "abc");
-    put("3", "def");
-    put("4", "ghi");
-    put("5", "jkl");
-    put("6", "mno");
-    put("7", "pqrs");
-    put("8", "tuv");
-    put("9", "wxyz");
-  }};
+  static Map<String, String> phoneChars = new HashMap<>();
+  
+  static {
+    phoneChars.put("2", "abc");
+    phoneChars.put("3", "def");
+    phoneChars.put("4", "ghi");
+    phoneChars.put("5", "jkl");
+    phoneChars.put("6", "mno");
+    phoneChars.put("7", "pqrs");
+    phoneChars.put("8", "tuv");
+    phoneChars.put("9", "wxyz");
+  };
 
   static List<String> letterCombinationsOfPhoneNumber(String str) {
 		List<String> ret = new ArrayList<>();
-    // TODO
+    
+    helper(str, 0, new StringBuilder(), ret);
+
     return ret;
+  }
+
+  static void helper(String str, int i, StringBuilder sb, List<String> collector) {
+    if (str.length() == i) {
+      collector.add(sb.toString());
+      return;
+    }
+
+    for (char c : phoneChars.get(str.substring(i, i+1)).toCharArray()) {
+      sb.append(c);
+      helper(str, i + 1, sb, collector);
+      sb.deleteCharAt(i);
+    }
   }
 
   public static void main(String args[]) {
