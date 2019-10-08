@@ -20,8 +20,52 @@ import java.util.*;
  */
 public class FrogJump {
   static boolean frogJump(int[] stones) {
-    // TODO
-    return false;
+    if (stones.length <= 1) {
+      return true;
+    }
+    if (stones[0] != 0) {
+      return false;
+    }
+    List<Set<Integer>> jumps = new ArrayList<>();
+    for (int i = 0; i < stones.length; i++) {
+      jumps.add(new HashSet<>());
+    }
+    jumps.get(0).add(0);
+    jumps.get(1).add(1);
+    for (int i = 1; i < stones.length - 1; i++) {
+      Set<Integer> prevJumps = jumps.get(i);
+      int curStone = stones[i];
+
+      for (int j : prevJumps) {
+        List<Integer> curJumps = new ArrayList<>();
+        curJumps.add(j - 1);
+        curJumps.add(j);
+        curJumps.add(j + 1);
+        
+        for (int curJump : curJumps) {
+          if (curJump <= 0) {
+            continue;
+          }
+          int nextLandedStone = curStone + curJump;
+          for (int k = i+1; k < stones.length; k++) {
+            int nextStone = stones[k];
+            if (nextStone < nextLandedStone) {
+              continue;
+            } else if (nextStone > nextLandedStone) {
+              // stones are in increasing positiions, so we found no landed stone
+              break;
+            } else {
+              // nextStone == nextLandedStone
+              Set<Integer> nextJumps = jumps.get(k);
+              nextJumps.add(curJump);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    return !jumps.get(jumps.size() - 1).isEmpty();
   }
 
   public static void main(String args[]) {
