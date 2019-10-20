@@ -19,28 +19,7 @@ import java.util.*;
  * direction.
  */
 public class FrogJump {
-  /*
-    // Leetcode solution
-		public class Solution {
-				public boolean canCross(int[] stones) {
-						HashMap<Integer, Set<Integer>> map = new HashMap<>();
-						for (int i = 0; i < stones.length; i++) {
-								map.put(stones[i], new HashSet<Integer>());
-						}
-						map.get(0).add(0);
-						for (int i = 0; i < stones.length; i++) {
-								for (int k : map.get(stones[i])) {
-										for (int step = k - 1; step <= k + 1; step++) {
-												if (step > 0 && map.containsKey(stones[i] + step)) {
-														map.get(stones[i] + step).add(step);
-												}
-										}
-								}
-						}
-						return map.get(stones[stones.length - 1]).size() > 0;
-				}
-		}
-	*/
+
   static boolean frogJump(int[] stones) {
     if (stones.length <= 1) {
       return true;
@@ -48,45 +27,29 @@ public class FrogJump {
     if (stones[0] != 0) {
       return false;
     }
-    List<Set<Integer>> jumps = new ArrayList<>();
-    for (int i = 0; i < stones.length; i++) {
-      jumps.add(new HashSet<>());
-    }
-    jumps.get(0).add(0);
-    jumps.get(1).add(1);
-    for (int i = 1; i < stones.length - 1; i++) {
-      int curStone = stones[i];
 
-      for (int j : jumps.get(i)) {
-        List<Integer> curJumps = new ArrayList<>();
-        curJumps.add(j - 1);
-        curJumps.add(j);
-        curJumps.add(j + 1);
-        
-        for (int curJump : curJumps) {
-          if (curJump <= 0) {
-            continue;
-          }
-          int nextLandedStone = curStone + curJump;
-          for (int k = i+1; k < stones.length; k++) {
-            int nextStone = stones[k];
-            if (nextStone < nextLandedStone) {
-              continue;
-            } else if (nextStone > nextLandedStone) {
-              // stones are in increasing positiions, so we found no landed stone
-              break;
-            } else {
-              // nextStone == nextLandedStone
-              Set<Integer> nextJumps = jumps.get(k);
-              nextJumps.add(curJump);
-              break;
-            }
+    // key: position
+    // value: sets of jump to arrive this position
+    Map<Integer, Set<Integer>> jumps = new HashMap<>();
+    for (int i = 0; i < stones.length; i++) {
+      jumps.put(stones[i], new HashSet<>());
+    }
+
+    // the 0'th position is achieved by taking 0 steps
+    jumps.get(0).add(0);
+    for (int i = 0; i < stones.length; i++) {
+      int stone = stones[i];
+      for (int lastJump : jumps.get(stone)) {
+        for (int jump = lastJump - 1; jump <= lastJump + 1; jump++) {
+          int next = jump + stone;
+          if (jump > 0 && jumps.containsKey(next)) {
+            jumps.get(next).add(jump);
           }
         }
       }
     }
 
-    return !jumps.get(jumps.size() - 1).isEmpty();
+    return !jumps.get(stones[stones.length - 1]).isEmpty();
   }
 
   public static void main(String args[]) {
