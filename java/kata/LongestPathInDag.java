@@ -64,6 +64,7 @@ public class LongestPathInDag {
     List<Integer> sorted = getSortedVertexes(n, neighbors);
     System.out.println("Sorted: " + sorted);
 
+    // update dist[v] if dist[u] + e.weight > dist[v]
     for (Integer u : sorted) {
       List<Edge> uedges = neighbors.get(u);
       if (uedges != null) {
@@ -78,7 +79,7 @@ public class LongestPathInDag {
     }
 
     // skip the check of cyclic graph. We can do that by doing
-    // BST, then see if there is any nodes left at n'th iteration.
+    // DFS, then check if we visit a node from the stack.
     
     int end = -1;
     for (int i = 0; i < n; i++) {
@@ -104,6 +105,7 @@ public class LongestPathInDag {
     return result;
   }
 
+  // Topologically sorting the vertexes
   static List<Integer> getSortedVertexes(int n, Map<Integer, List<Edge>> edges) {
     int []indegrees = new int[n];
 
@@ -140,16 +142,6 @@ public class LongestPathInDag {
   }
 
   public static void main(String args[]) {
-		// g.addEdge(0, 1, 5);  
-    // g.addEdge(0, 2, 3);  
-    // g.addEdge(1, 3, 6);  
-    // g.addEdge(1, 2, 2);  
-    // g.addEdge(2, 4, 4);  
-    // g.addEdge(2, 5, 2);  
-    // g.addEdge(2, 3, 7);  
-    // g.addEdge(3, 5, 1);  
-    // g.addEdge(3, 4, -1);  
-    // g.addEdge(4, 5, -2); 
     runSample(6, new int[][]{
       {0, 1, 5},
       {0, 2, 3},
