@@ -36,7 +36,7 @@ public class FindInSuffixArray {
     char[] schars = s.toCharArray();
     char[] pchars = substr.toCharArray();
     int left = 0;
-    int right = suffixArray.length;
+    int right = suffixArray.length - 1;
     // find the result left <= result <= right
     while (left <= right) {
       int mid = left + (right - left) / 2;
@@ -51,6 +51,57 @@ public class FindInSuffixArray {
       }
     }
     return -1;
+  }
+
+  // find ranges of indices in the suffix array
+  static int[] findRangeInSuffixArray(String s, int[] suffixArray, String substr) {
+    if (substr.length() >= s.length()) {
+      return new int[]{};
+    }
+
+    char[] schars = s.toCharArray();
+    char[] pchars = substr.toCharArray();
+    int start = -1;
+    int end = -1;
+
+    int left = 0;
+    int right = suffixArray.length - 1;
+    // find the start at left <= result <= right
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+
+      int res = compare(schars, suffixArray[mid], pchars);
+      if (res == 1) {
+        left = mid + 1;
+      } else {
+        if (res == 0) {
+          start = mid;
+        }
+        right = mid - 1;
+      }
+    }
+    if (start == -1) {
+      return new int[]{};
+    }
+
+    left = 0;
+    right = suffixArray.length - 1;
+    // find the end at left <= result <= right
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+
+      int res = compare(schars, suffixArray[mid], pchars);
+      if (res == -1) {
+        right = mid - 1;
+      } else {
+        if (res == 0) {
+          end = mid;
+        }
+        left = mid + 1;
+      }
+    }
+
+    return new int[]{start, end};
   }
 
   // substr is before (-1), a substring of (0) or later (1) than s
@@ -75,7 +126,7 @@ public class FindInSuffixArray {
       return 0;
     }
     // suffix is shorter than substr (pchars)
-    return -1;
+    return 1;
   }
 
   public static void main(String args[]) {
@@ -87,5 +138,6 @@ public class FindInSuffixArray {
 
   static void runSample(String s, int[] suffixArray, String substr) {
     System.out.printf("%s,%s,%s = %s\n", s, Arrays.toString(suffixArray), substr, findInSuffixArray(s, suffixArray, substr));
+    System.out.printf("%s\n", Arrays.toString(findRangeInSuffixArray(s, suffixArray, substr)));
   }
 }
