@@ -33,6 +33,10 @@ def main():
     methodname = classname[0].lower() + classname[1:]
     filepath = os.path.join(os.path.join(os.path.dirname(__file__), "kata"),
                             classname + ".java")
+    if os.path.exists(filepath):
+        print("%s already exists" % filepath)
+        return
+
     with open(filepath, "w") as f:
         f.write(templ % locals())
     print("Written to %s" % filepath)
