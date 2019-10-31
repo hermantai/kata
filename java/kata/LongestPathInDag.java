@@ -177,7 +177,7 @@ public class LongestPathInDag {
   }
 
   public static String multiArrayToString(int[][] m) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder("[");
     boolean isFirst = true;
     for (int[] row : m) {
       if (isFirst) {
@@ -187,6 +187,7 @@ public class LongestPathInDag {
       }
       sb.append(Arrays.toString(row));
     }
+    sb.append(']');
     return sb.toString();
   }
 
