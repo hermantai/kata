@@ -77,6 +77,7 @@ public class MaximumProductSubarray {
     runSample(new double[]{-3, -2, -4}); // 8
     runSample(new double[]{-3}); // -3
     runSample(new double[]{3, 0.1, 0.2, 4}); // 4
+    runSample(new double[]{0.5, 0.3}); // 0.5
   }
 
   static void runSample(double[] ar) {
