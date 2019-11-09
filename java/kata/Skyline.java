@@ -64,26 +64,6 @@ public class Skyline {
     return mergeSkylines(left, right);
   }
 
-  static List<int[]> skylineHelper(List<int[]> points, int start, int end) {
-    if (start > end) {
-      return new ArrayList<>();
-    }
-
-    List<int[]> output = new ArrayList<>();
-    if (start == end) {
-      output.add(points.get(start));
-      return output;
-    }
-
-    int mid = start + (end - start) / 2;
-    List<int[]> left = skylineHelper(points, start, mid);
-    List<int[]> right = skylineHelper(points, mid + 1, end);
-    System.out.println("left: " + listOfArraysToString(left));
-    System.out.println("right: " + listOfArraysToString(right));
-    System.out.println("merged: " + listOfArraysToString(mergeSkylines(left, right)));
-    return mergeSkylines(left, right);
-  }
-
   static List<int[]> mergeSkylines(List<int[]> left, List<int[]> right) {
     int leftP = 0, rightP = 0;
     int leftN = left.size();
