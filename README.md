@@ -7,7 +7,9 @@ Track multiple pointers
 
 Recursions
 * Dynamic programming
+* Memoization
 * Recursions
+* Backtracking
 * Divide and conquer (usually some kind of merge sort)
 
 Searching
@@ -20,6 +22,7 @@ Using data structures
 * hash tables
 * trie
 * suffix tree, suffix array
+* segment trees
 
 Precomputation:
 * Precomputing matrices
