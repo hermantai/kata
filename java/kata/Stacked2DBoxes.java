@@ -1,5 +1,6 @@
 package kata;
 
+import static kata.Printer.*;
 import java.util.*;
 
 /**
@@ -95,45 +96,5 @@ public class Stacked2DBoxes {
 
   static void runSample(int[][] boxes) {
     System.out.printf("%s = %s\n", multiArrayToString(boxes), stacked2DBoxes(boxes));
-  }
-
-  public static String multiArrayToString(int[][] m) {
-    StringBuilder sb = new StringBuilder("[");
-    boolean isFirst = true;
-    for (int[] row : m) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append(Arrays.toString(row));
-    }
-    sb.append(']');
-    return sb.toString();
-  }
-
-  public static String listsOfArrayToString(List<List<int[]>> listsOfArrays) {
-    StringBuilder sb = new StringBuilder("[");
-    boolean isFirstList = true;
-    for (List<int[]> list : listsOfArrays) {
-      if (isFirstList) {
-        isFirstList = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append("[");
-      boolean isFirst = true;
-      for (int[] box : list) {
-        if (isFirst) {
-          isFirst = false;
-        } else {
-          sb.append(", ");
-        }
-        sb.append(Arrays.toString(box));
-      }
-      sb.append("]");
-    }
-    sb.append(']');
-    return sb.toString();
   }
 }

@@ -3,6 +3,7 @@ import sys
 
 templ = """package kata;
 
+import static kata.Printer.*;
 import java.util.*;
 
 /**

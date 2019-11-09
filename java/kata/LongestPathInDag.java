@@ -1,5 +1,6 @@
 package kata;
 
+import static kata.Printer.*;
 import java.util.*;
 
 /**
@@ -174,21 +175,6 @@ public class LongestPathInDag {
 
   static void runSample(int n, int[][] edges) {
     System.out.printf("%s,%s = %s\n", n, multiArrayToString(edges), longestPathInDag(n, edges));
-  }
-
-  public static String multiArrayToString(int[][] m) {
-    StringBuilder sb = new StringBuilder("[");
-    boolean isFirst = true;
-    for (int[] row : m) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append(Arrays.toString(row));
-    }
-    sb.append(']');
-    return sb.toString();
   }
 
   static class Result {

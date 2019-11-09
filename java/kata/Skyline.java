@@ -1,5 +1,6 @@
 package kata;
 
+import static kata.Printer.*;
 import java.util.*;
 
 /**
@@ -145,35 +146,5 @@ public class Skyline {
 
   static void runSample(int[][] buildings) {
     System.out.printf("%s = %s\n", multiArrayToString(buildings), listOfArraysToString(skyline(buildings)));
-  }
-
-  public static String multiArrayToString(int[][] m) {
-    StringBuilder sb = new StringBuilder("[");
-    boolean isFirst = true;
-    for (int[] row : m) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append(Arrays.toString(row));
-    }
-    sb.append(']');
-    return sb.toString();
-  }
-
-  public static String listOfArraysToString(List<int[]> m) {
-    StringBuilder sb = new StringBuilder("(");
-    boolean isFirst = true;
-    for (int[] row : m) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append(Arrays.toString(row));
-    }
-    sb.append(")");
-    return sb.toString();
   }
 }

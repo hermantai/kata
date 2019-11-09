@@ -1,5 +1,6 @@
 package kata;
 
+import static kata.Printer.*;
 import java.util.*;
 
 /**
@@ -61,20 +62,4 @@ public class InsertInterval {
   static void runSample(int[][] intervals, int[] newInterval) {
     System.out.printf("%s, %s = %s\n", multiArrayToString(intervals), Arrays.toString(newInterval), multiArrayToString(insertInterval(intervals, newInterval)));
   }
-
-  public static String multiArrayToString(int[][] m) {
-    StringBuilder sb = new StringBuilder("[");
-    boolean isFirst = true;
-    for (int[] row : m) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append(Arrays.toString(row));
-    }
-    sb.append(']');
-    return sb.toString();
-  }
-
 }
