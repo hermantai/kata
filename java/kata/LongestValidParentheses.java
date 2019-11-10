@@ -27,6 +27,23 @@ public class LongestValidParentheses {
     return max;
   }
 
+  // This does not work for )()()) -> 2 (correct answer is 4)
+  // We need to keep track of the invalids, not valid.
+  static int longestValidParentheses2(String str) {
+    Stack<Integer> openIndices = new Stack<>();
+
+    int max = 0;
+    for (int i = 0; i < str.length(); i++) {
+      if (str.charAt(i) == '(') {
+        openIndices.push(i);
+      } else {
+        if (!openIndices.isEmpty()) {
+          max = Math.max(max, i - openIndices.pop() + 1);
+        }
+      }
+    }
+    return max;
+  }
   public static void main(String args[]) {
     runSample("(()"); // 2
     runSample(")()())"); // 4
