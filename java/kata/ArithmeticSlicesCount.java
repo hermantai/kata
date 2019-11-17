@@ -24,9 +24,13 @@ public class ArithmeticSlicesCount {
         int diff = ar[j] - ar[i];
         
         int prevCount = diffsToCountsList.get(j).getOrDefault(diff, 0);
-        // There were prevCount for j with diff, if the sequence ends
-        // with ar[j] and ar[i], the count for i with diff will increase by 1.
-        // The sequeneces ending at ar[j] previously will be part of the answer.
+        // There were prevCount for ar[j] with diff. Each of this sequence
+        // can be appended by ar[i] to satisfy the criteria and be part of
+        // the answer, so prevCount should be added to sum.
+        // Then, there will be one more sequence formed by ar[j] and ar[i]
+        // only, so the count should be increased by 1, which is not part
+        // of the answer, yet, because there are only two elements in
+        // the sequence.
         int countSoFar = countsSoFar.getOrDefault(diff, 0);
         countsSoFar.put(diff, prevCount + countSoFar + 1);
 
