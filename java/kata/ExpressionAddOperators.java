@@ -40,20 +40,22 @@ public class ExpressionAddOperators {
       recurse(index + 1, prevOp, curOp, val, s, t, n, soFar, output);
     }
 
-    // Try "+"
-    if (!soFar.isEmpty()) {
-      soFar.addLast("+");
-    }
-    
     String opStr = Integer.toString(curOp);
-    soFar.addLast(opStr);
-    recurse(index + 1, curOp, 0, val + curOp, s, t, n, soFar, output);
-    soFar.removeLast();
-    if (!soFar.isEmpty()) {
+    if (soFar.isEmpty()) {
+      soFar.addLast(opStr);
+      recurse(index + 1, curOp, 0, val + curOp, s, t, n, soFar, output);
       soFar.removeLast();
+      return;
     }
 
     if (!soFar.isEmpty()) {
+      // Try "+"
+      soFar.addLast("+");
+      soFar.addLast(opStr);
+      recurse(index + 1, curOp, 0, val + curOp, s, t, n, soFar, output);
+      soFar.removeLast();
+      soFar.removeLast();
+
       // Try '-'
       soFar.addLast("-");
       soFar.addLast(opStr);
@@ -100,6 +102,9 @@ public class ExpressionAddOperators {
 
     runSample("3456237490", 9191);
 		// Output: []
+
+    runSample("1234", 1234);
+    // Output: ["1234"]
 	}
 
   static void runSample(String s, int target) {
