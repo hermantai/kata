@@ -21,7 +21,7 @@ Recursions
 * Divide and conquer (usually some kind of merge sort)
 
 Searching
-* Sorting, topological sorting
+* Sorting, topological sorting, bucket sort
 * Binary search
 * Breath-first search
 * Depth-first search
