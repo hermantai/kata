@@ -28,8 +28,14 @@ public class MaximumProductSubarray {
         continue;
       } else {
         if (negMaxSoFar != null) {
-          posMaxSoFar = negMaxSoFar * d;
-          negMaxSoFar = d;
+          if (posMaxSoFar == null) {
+            posMaxSoFar = negMaxSoFar * d;
+            negMaxSoFar = d;
+          } else {
+            double tmpNeg = negMaxSoFar;
+            negMaxSoFar = Math.min(posMaxSoFar * d, d);
+            posMaxSoFar = tmpNeg * d;
+          }
         } else {
           if (posMaxSoFar == null) {
             negMaxSoFar = d;
@@ -45,9 +51,6 @@ public class MaximumProductSubarray {
       }
       if (posMaxSoFar != null && posMaxSoFar < 1) {
         posMaxSoFar = null;
-      }
-      if (negMaxSoFar != null && negMaxSoFar > -1) {
-        negMaxSoFar = null;
       }
     }
 
@@ -78,6 +81,8 @@ public class MaximumProductSubarray {
     runSample(new double[]{-3}); // -3
     runSample(new double[]{3, 0.1, 0.2, 4}); // 4
     runSample(new double[]{0.5, 0.3}); // 0.5
+    runSample(new double[]{-0.5, -0.3}); // 0.15
+    runSample(new double[]{-2, 10, -3, -4}); // 120
   }
 
   static void runSample(double[] ar) {
