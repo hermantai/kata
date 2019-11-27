@@ -34,38 +34,22 @@ public class RegexMatching {
       for (int j = n; j >= 0; j--) {
         if (i == m && j == n) {
           matched[i][j] = true;
-          continue;
-        }
-        if (j == n) {
+        } else if (j == n) {
           matched[i][j] = false;
-          continue;
-        }
-
-        if (i == m) {
-          if (j == n-2 && p.charAt(n - 1) == '*') {
-            // special case, s[i] is empty and p[n-2:] is "anything and *"
-            matched[i][j] = true;
+        } else {
+          char pchar = p.charAt(j);
+          if (j < n - 1 && p.charAt(j+1) == '*') {
+            // Either we take zero of p.charAt(j) or one of p.charAt(j)
+            matched[i][j] = matched[i][j+2] || (i < m && matchedChar(s.charAt(i), pchar) && matched[i+1][j]);
+          } else if (pchar == '*') {
+            // This is false becasue a leading '*' in pattern is invalid.
+            // The condition above should make sure this does not happen.
+            matched[i][j] = false;
+          } else if (i < m && matchedChar(s.charAt(i), pchar)) {
+            matched[i][j] = matched[i+1][j+1];
           } else {
             matched[i][j] = false;
           }
-          continue;
-        }
-
-        char pchar = p.charAt(j);
-        if (j < n - 1 && p.charAt(j+1) == '*') {
-          // Either we take zero of p.charAt(j) or one of p.charAt(j)
-          matched[i][j] = matched[i][j+2] || (matchedChar(s.charAt(i), pchar) && matched[i+1][j]);
-          continue;
-        }
-
-        if (pchar == '*') {
-          // This is false becasue a leading '*' in pattern is invalid.
-          // The condition above should make sure this does not happen.
-          matched[i][j] = false;
-        } else if (matchedChar(s.charAt(i), pchar)) {
-          matched[i][j] = matched[i+1][j+1];
-        } else {
-          matched[i][j] = false;
         }
       }
     }
@@ -83,6 +67,9 @@ public class RegexMatching {
     runSample("ab", ".*"); // true
     runSample("aab", "c*a*b"); // true
     runSample("mississippi", "mis*is*p*."); // false
+    runSample("a*", "**"); // false
+    runSample("**", ".*"); // true
+    runSample("", "a*b*"); // true
   }
 
   static void runSample(String s, String p) {
