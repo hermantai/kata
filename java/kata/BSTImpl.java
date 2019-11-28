@@ -17,6 +17,52 @@ public class BSTImpl {
     }
   }
 
+  /**
+   * https://leetcode.com/problems/validate-binary-search-tree
+   */
+  static boolean isValidBst(Node root) {
+    return isValidBstHelper(root, null, null);
+  }
+
+  private static boolean isValidBstHelper(Node node, Integer lower, Integer upper) {
+    int val = node.data;
+    if (lower != null && lower >= val) return false;
+    if (upper != null && upper <= val) return false;
+    if (node.left != null && !isValidBstHelper(node.left, lower, val)) return false;
+    if (node.right != null && !isValidBstHelper(node.right, val, upper)) return false;
+    return true;
+  }
+
+  static boolean isValidBstIter(Node root) {
+    Stack<Node> stack = new Stack<>();
+    Stack<Integer> lowers = new Stack<>(),
+      uppers = new Stack<>();
+
+    Integer lower = null, upper = null;
+    lowers.push(lower);
+    uppers.push(upper);
+    stack.push(root);
+    while (!stack.isEmpty()) {
+      Node n = stack.pop();
+      lower = lowers.pop();
+      upper = uppers.pop();
+      if (n == null) {
+        continue;
+      }
+      int val = n.data;
+      if (lower != null && val <= lower) return false;
+      if (upper != null && val >= upper) return false;
+      lowers.push(val);
+      uppers.push(upper);
+      stack.push(n.right);
+
+      lowers.push(lower);
+      uppers.push(val);
+      stack.push(n.left);
+    }
+    return true;
+  }
+
   static Node insert(Node node, int data) {
     if (node == null) {
       return new Node(data);
@@ -99,6 +145,10 @@ public class BSTImpl {
 
     tree = runRemove(tree, 15);
     tree = runRemove(tree, 6);
+
+    Node tree2 = runSample(new int[]{9, 6, 3, 8, 18, 15, 16});
+    System.out.println("is valid BST? " + isValidBst(tree2));
+    System.out.println("is valid BST iterative? " + isValidBstIter(tree2));
   }
 
   static Node runSample(int[] nums) {
