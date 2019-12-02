@@ -18,8 +18,8 @@ public class %(classname)s {
     runSample("abcabcdd");
   }
 
-  static void runSample(String s) {
-    System.out.printf("%%s = %%s\\n", s, %(methodname)s(s));
+  static void runSample(String s, int ans) {
+    System.out.printf("%%s = %%s(%%s)\\n", s, %(methodname)s(s), ans);
   }
 }
 """
