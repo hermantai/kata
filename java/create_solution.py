@@ -19,7 +19,10 @@ public class %(classname)s {
   }
 
   static void runSample(String s, int ans) {
-    System.out.printf("%%s = %%s(%%s)\\n", s, %(methodname)s(s), ans);
+    System.out.printf(
+      "%%s = %%s(%%s)\\n",
+      s,
+      %(methodname)s(s), ans);
   }
 }
 """
