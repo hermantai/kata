@@ -22,7 +22,8 @@ public class %(classname)s {
     System.out.printf(
       "%%s = %%s(%%s)\\n",
       s,
-      %(methodname)s(s), ans);
+      %(methodname)s(s),
+      ans);
   }
 }
 """
