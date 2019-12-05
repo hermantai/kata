@@ -10,16 +10,17 @@ public class FirstAndLastPositionOfElementInSortedArray {
   static int[] firstAndLastPositionOfElementInSortedArray(int[] nums, int target) {
 	  int[] targetRange = {-1, -1};
 
-    int leftIdx = extremeInsertionIndex(nums, target, true);
+    int leftIdx = extremeInsertionIndex2(nums, target, true);
 
 		// assert that `leftIdx` is within the array bounds and that `target`
 		// is actually in `nums`.
-		if (leftIdx == nums.length || nums[leftIdx] != target) {
+		if (leftIdx == nums.length || leftIdx == - 1 || nums[leftIdx] != target) {
 			return targetRange;
 		}
 
 		targetRange[0] = leftIdx;
-		targetRange[1] = extremeInsertionIndex(nums, target, false)-1;
+		targetRange[1] = extremeInsertionIndex2(nums, target, false);
+		// or targetRange[1] = extremeInsertionIndex(nums, target, false) - 1;
 
 		return targetRange;
   }
@@ -41,6 +42,32 @@ public class FirstAndLastPositionOfElementInSortedArray {
       }
 
       return lo;
+  }
+
+  // Easier to understand, in my opinion.
+  private static int extremeInsertionIndex2(int[] nums, int target, boolean left) {
+      int lo = 0;
+      int hi = nums.length;
+      int ans = -1;
+
+      while (lo <= hi) {
+        int mid = (lo + hi) / 2;
+        if (nums[mid] > target) {
+          hi = mid - 1;
+        } else if (nums[mid] < target) {
+          lo = mid + 1;
+        } else {
+          // nums[mid] == target
+          ans = mid;
+          if (left) {
+            hi = mid - 1;
+          } else {
+            lo = mid + 1;
+          }
+        }
+      }
+
+      return ans;
   }
 
   public static void main(String args[]) {
