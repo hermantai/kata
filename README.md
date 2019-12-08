@@ -39,6 +39,7 @@ Precomputation:
 
 Misc thinking
 * Going from backwards maybe easier
+* Simulation
 
 ## Lanugages ##
 
