@@ -25,25 +25,27 @@ public class GossipSpread {
       peopleWhoKnowSet.add(p);
     }
 
-    Map<Integer, List<Node>> graphsForPerson = new HashMap<>();
+    Map<Integer, List<Node>> personsGraphs = new HashMap<>();
 
     for (Meeting meeting: meetingsList) {
-      // newGraphs are used for updating graphsForPerson. We can only
-      // update graphsForPerson after we have use it to retrieve graphs
+      // newGraphs are used for updating personsGraphs. We can only
+      // update personsGraphs after we have use it to retrieve graphs
       // for each person to create newGraphs, otherwise we will have
       // infinite recursion.
       List<Node> newGraphs = new ArrayList<>();
 
-      updatePerson(meeting.person1, meeting.person2, graphsForPerson, newGraphs);
-      updatePerson(meeting.person2, meeting.person1, graphsForPerson, newGraphs);
+      updatePerson(meeting.person1, meeting.person2, personsGraphs, newGraphs);
+      updatePerson(meeting.person2, meeting.person1, personsGraphs, newGraphs);
 
       for (Node graph: newGraphs) {
-        graphsForPerson.get(graph.person).add(graph);
+        personsGraphs.get(graph.person).add(graph);
       }
+      // System.out.println(String.format("after processing meeting: %s -> %s", meeting.person1, meeting.person2));
+      // printAllGraphs(personsGraphs);
     }
 
     Set<Integer> peopleWhoDoNotKnow = new HashSet<>();
-    for (int person : graphsForPerson.keySet()) {
+    for (int person : personsGraphs.keySet()) {
       if (!peopleWhoKnowSet.contains(person)) {
         peopleWhoDoNotKnow.add(person);
       }
@@ -53,35 +55,29 @@ public class GossipSpread {
     // find all "clean" people
     Set<Integer> cleanPeople = new HashSet<>();
     for (int person : peopleWhoDoNotKnow) {
-      for (Node node : graphsForPerson.get(person)) {
-        updateCleanPeople(node, peopleWhoDoNotKnow, cleanPeople);
+      for (Node node : personsGraphs.get(person)) {
+        addCleanPeople(node, peopleWhoDoNotKnow, cleanPeople);
       }
     }
     cleanPeople.addAll(peopleWhoDoNotKnow);
 
     peopleWhoKnowSet.removeAll(cleanPeople);
 
-    /*
-    System.out.println("print all graphs:");
-    for (Map.Entry<Integer, List<Node>> entry: graphsForPerson.entrySet()) {
-      System.out.println("graphs for: " + entry.getKey());
-      for (Node node : entry.getValue()) {
-        printGraph(node);
-      }
-    }
-    */
+    // System.out.println("print all graphs:");
+    // printAllGraphs(personsGraphs);
+    
 
     return new ArrayList<>(peopleWhoKnowSet);
   }
 
-  public static void updatePerson(int fromPerson, int toPerson, Map<Integer, List<Node>> graphsForPerson, List<Node> newGraphs) {
-      List<Node> fromPersonGraphs = graphsForPerson.get(fromPerson);
+  public static void updatePerson(int fromPerson, int toPerson, Map<Integer, List<Node>> personsGraphs, List<Node> newGraphs) {
+      List<Node> fromPersonGraphs = personsGraphs.get(fromPerson);
       if (fromPersonGraphs == null) {
         fromPersonGraphs = new ArrayList<>();
         Node newGraph = new Node(fromPerson);
-        graphsForPerson.put(fromPerson, fromPersonGraphs);
+        fromPersonGraphs.add(newGraph);
 
-        newGraphs.add(newGraph);
+        personsGraphs.put(fromPerson, fromPersonGraphs);
       }
 
       for (Node graph : fromPersonGraphs) {
@@ -94,12 +90,21 @@ public class GossipSpread {
       }
   }
 
-  public static void updateCleanPeople(Node node, Set<Integer> peopleWhoDoNotKnow, Set<Integer> cleanPeople) {
+  public static void addCleanPeople(Node node, Set<Integer> peopleWhoDoNotKnow, Set<Integer> cleanPeople) {
     for (Map.Entry<Integer, Node> entry: node.children.entrySet()) {
       if (!peopleWhoDoNotKnow.contains(entry.getKey())) {
         cleanPeople.add(entry.getKey());
         // System.out.println("updatecleanpeople: node: " + node.person + " child: " + entry.getKey());
-        updateCleanPeople(entry.getValue(), peopleWhoDoNotKnow, cleanPeople);
+        addCleanPeople(entry.getValue(), peopleWhoDoNotKnow, cleanPeople);
+      }
+    }
+  }
+
+  public static void printAllGraphs(Map<Integer, List<Node>> personsGraphs) {
+    for (Map.Entry<Integer, List<Node>> entry: personsGraphs.entrySet()) {
+      System.out.println("graphs for: " + entry.getKey());
+      for (Node node : entry.getValue()) {
+        printGraph(node);
       }
     }
   }
@@ -122,16 +127,16 @@ public class GossipSpread {
     Meeting meeting4 = new Meeting(2,5,400);
 
     // answer: 1, 2, 5
-    System.out.println(findOriginalGossiper(new Meeting[]{meeting1, meeting2, meeting3, meeting4}, new int[]{1, 2, 3, 5}));
+    System.out.println(findOriginalGossiper(new Meeting[]{meeting1, meeting2, meeting3, meeting4}, new int[]{1, 2, 3, 5})); // source is 1
 
-    // answer: 1, 2
-    System.out.println(findOriginalGossiper(new Meeting[]{meeting1}, new int[]{1, 2}));
+    // answer: 3, 4
+    System.out.println(findOriginalGossiper(new Meeting[]{meeting1}, new int[]{1, 3, 4})); // source is 3
 
     meeting1 = new Meeting(1,2,100);
     meeting2 = new Meeting(2,3,200);
 
-    // answer: 1,2
-    System.out.println(findOriginalGossiper(new Meeting[]{meeting1, meeting2}, new int[]{1, 2}));
+    // answer: 3
+    System.out.println(findOriginalGossiper(new Meeting[]{meeting1, meeting2}, new int[]{2, 3}));
 
     // answer: {}
     System.out.println(findOriginalGossiper(new Meeting[]{meeting1, meeting2}, new int[]{}));
